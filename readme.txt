@@ -80,7 +80,8 @@ Installation of this plugin is very simple.
 
 == Frequently Asked Questions ==
 
-There is no FAQ
+There is no FAQ.
+Please comment and review this plugin. I look forward to hearing from you.
 
 == Screenshots ==
 
