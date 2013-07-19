@@ -8,7 +8,7 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-This plugin will add a barclay epdq payment gateway and will allows you to take payment directly in your barclay account.  
+This plugin will add a barclay epdq payment gateway and will allow you to take payment directly in your barclay account.  
 
 == Description ==
 
