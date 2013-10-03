@@ -25,6 +25,8 @@ any payment regarding to the order then the order will be marked as failed. Cust
 If the customer cancels the order then the order will be cancelled in the shop.   
 For instruction on how to setup the plugin in the admin panel see other notes.
 
+Please donate if you find this helpful for your project. Thanks.
+
 == Settings and Configuration==
 
 Parameters in this plugin :
