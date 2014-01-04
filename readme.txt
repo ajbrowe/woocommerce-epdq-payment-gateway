@@ -3,7 +3,7 @@ Contributors: maksbd19
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=453VDL4HEHWKQ
 Tags: woocommerce, payment-gateway, barclay, epdq
 Requires at least: 3.0.1
-Tested up to: 3.5
+Tested up to: 3.8
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -26,6 +26,9 @@ If the customer cancels the order then the order will be cancelled in the shop.
 For instruction on how to setup the plugin in the admin panel see other notes.
 
 Please donate if you find this helpful for your project. Thanks.
+
+This plugin is now tested upto wordpress 3.8 verson.
+
 
 == Settings and Configuration==
 
