@@ -102,3 +102,10 @@ Please comment and review this plugin. I look forward to hearing from you.
  
  There is no updrade notice
 
+
+
+
+=== AJBROWE fork - fixing for woocommerce 2.1.x ===
+
+as explained in this forum comment some changes are necessary for woocommerce 2.1.x
+http://wordpress.org/support/topic/not-compatible-with-woocommerce-21x

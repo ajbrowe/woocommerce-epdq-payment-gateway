@@ -425,7 +425,7 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
         global $woocommerce;
     	$order = new WC_Order( $order_id );
         return array('result' => 'success', 'redirect' => add_query_arg('order',
-            $order->id, add_query_arg('key', $order->order_key, get_permalink(get_option('woocommerce_pay_page_id'))))
+            $order->id, add_query_arg('key', $order->order_key, $order->get_checkout_payment_url( $on_checkout = true )))
         );
     }
 	
@@ -448,10 +448,11 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
         		'OWNERTOWN'=>$order->billing_city, 
         		'OWNERTELNO'=>$order->billing_phone,
         		
-        		'ACCEPTURL'=>$this->notify_url,
-        		'DECLINEURL'=>$this->notify_url,
-        		'EXCEPTIONURL'=>$this->notify_url,
-        		'CANCELURL'=>$this->notify_url,
+        		'ACCEPTURL'=>$order->get_checkout_order_received_url(),
+                        'DECLINEURL'=>$order->get_checkout_order_received_url(),
+                        'EXCEPTIONURL'=>$order->get_checkout_order_received_url(),
+                        'CANCELURL'=>$order->get_checkout_order_received_url(),        		
+
         		'BACKURL'=>get_permalink($this->back_url),
         		'HOMEURL'=>get_permalink($this->home_url),
         		'CATALOGURL'=>get_permalink($this->cat_url),
