@@ -78,8 +78,8 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
 	public function admin_options() {
 		global $woocommerce;
 		?>
-		<h3><?php _e( 'Barkley EPDQ Checkout', 'woocommerce' );?></h3>
-		<p><?php _e('Barkley EPDQ Payment gateway to accept payments directly into your Barkey account. This gateway will redirect the customers to the secured Barkley payment receiving page and process order there
+		<h3><?php _e( 'Barclays EPDQ Checkout', 'woocommerce' );?></h3>
+		<p><?php _e('Barclays EPDQ Payment gateway to accept payments directly into your Barclays account. This gateway will redirect the customers to the secured Barclay payment receiving page and process order there
 						and then send them back to the provided links based on the status of their transection.','woocommerce')?></p>
 		<p><?php _e('Sometime Barclay doesn\'t send "AAVCHECK" and "CVCCHECK" data in the transaction feedback. Though their default value is "NO" but its better not to select them in the "Dynamic e-Commerce parameters" selectbox or use them after councelling with the support desk of the company.','woocommerce')?></p>
 		<table class="form-table">
@@ -279,7 +279,7 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
 				'access_key' => array(
 						'title' => __( 'PSPID', 'woocommerce' ),
 						'type' => 'text',
-						'description' => __( 'The PSPID for your barkley account. This is the id which you use to login the admin panel of the barkley bank.', 'woocommerce' ),
+						'description' => __( 'The PSPID for your barclays account. This is the id which you use to login the admin panel of the barclays bank.', 'woocommerce' ),
 						'default' => '',
 						'desc_tip'      => true
 				),
@@ -287,7 +287,7 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
 						'title' => __( 'Store Status', 'woocommerce' ),
 						'type' => 'select',
 						'options'=> array('test'=>'Test Environment','live'=>'Live Store'),
-						'description' => __( 'The status of your store tells that are you actually ready to run your shop or its still a test environment. If the test is selected then no payments will be processed. For details please refer to the user guide provided by the Barkley EPDQ servise.', 'woocommerce' ),						
+						'description' => __( 'The status of your store tells that are you actually ready to run your shop or its still a test environment. If the test is selected then no payments will be processed. For details please refer to the user guide provided by the Barclays EPDQ servise.', 'woocommerce' ),						
 						'default' => '',
 						'desc_tip'      => true,
 				),
