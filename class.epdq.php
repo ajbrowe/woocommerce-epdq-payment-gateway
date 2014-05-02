@@ -14,7 +14,7 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
 
 		$this->id 			= 'epdq_checkout';
 		$this->method_title = 'EPDQ Checkout';//__( '', 'woocommerce' );
-		$this->icon 		= apply_filters( 'woocommerce_mijireh_checkout_icon', $woocommerce->plugin_url() . '/classes/gateways/mijireh/assets/images/credit_cards.png' );		
+		$this->icon 		= apply_filters( 'woocommerce_mijireh_checkout_icon', $woocommerce->plugin_url() . '/includes/gateways/mijireh/assets/images/credit_cards.png' );		
 		$this->has_fields 	= false;
 				
 		// Load the settings.
