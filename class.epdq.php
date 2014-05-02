@@ -500,11 +500,11 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
         	if($this->status=='test')	$url = $this->test_url;
         	if($this->status=='live')	$url = $this->live_url;
         	
-			echo '<p>'.__('Thank you for your order, please click the button below to pay with Barclay ePDQ.', 'woocommerce').'</p>';
+			echo '<p>'.__('Thank you for your order, please click the button below to pay securely', 'woocommerce').'</p>';
 			echo '<form action="'.$url.'" method="post" id="epdq_payment_form">';
 			echo implode('', $epdq_args);			
 			echo '<input type="hidden" name="SHASIGN" value="'.$shasign.'"/>';
-			echo '<input type="submit" class="button alt" id="submit_epdq_payment_form" value="'.__('Pay via Barclay ePDQ', 'woocommerce').'" />';
+			echo '<input type="submit" class="button alt" id="submit_epdq_payment_form" value="'.__('Pay securely', 'woocommerce').'" />';
 			echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			echo '<a class="button cancel" href="'.$order->get_cancel_order_url().'">'.__('Cancel order &amp; restore cart', 'woocommerce').'</a></form>';
         else:
