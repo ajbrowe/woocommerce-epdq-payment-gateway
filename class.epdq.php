@@ -422,15 +422,14 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
 	function process_payment($order_id){
         global $woocommerce;
     	$order = new WC_Order( $order_id );
-        return array('result' => 'success', 'redirect' => add_query_arg('order',
-            $order->id, add_query_arg('key', $order->order_key, $order->get_checkout_payment_url( $on_checkout = true )))
-        );
+        return array('result' => 'success', 'redirect' => add_query_arg(array( 'wc-api' => 'WC_Nom_EPDQ', 'key' => $order->order_key), $order->get_checkout_payment_url( $on_checkout = true )));
     }
 	
 	function receipt_page($order_id){
 		global $woocommerce;
 		$order = new WC_Order( $order_id );
-				
+		    
+                $order_received_url = add_query_arg( 'wc-api', 'WC_Nom_EPDQ', $order->get_checkout_order_received_url() );
         $fields = array(        
         		'PSPID'=>$this->access_key,
         		'ORDERID'=>$order_id,
@@ -446,10 +445,10 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
         		'OWNERTOWN'=>$order->billing_city, 
         		'OWNERTELNO'=>$order->billing_phone,
         		
-        		'ACCEPTURL'=>$order->get_checkout_order_received_url(),
-                        'DECLINEURL'=>$order->get_checkout_order_received_url(),
-                        'EXCEPTIONURL'=>$order->get_checkout_order_received_url(),
-                        'CANCELURL'=>$order->get_checkout_order_received_url(),        		
+        		'ACCEPTURL'=>$order_received_url,
+                        'DECLINEURL'=>$order_received_url,
+                        'EXCEPTIONURL'=>$order_received_url,
+                        'CANCELURL'=>$order_received_url,        		
 
         		'BACKURL'=>get_permalink($this->back_url),
         		'HOMEURL'=>get_permalink($this->home_url),
@@ -529,17 +528,20 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
     			'NCERROR'	=>	isset($_REQUEST['NCERROR']) ? $_REQUEST['NCERROR'] : '',
     			'BRAND'		=>	isset($_REQUEST['BRAND']) ? $_REQUEST['BRAND'] : '',
     			'IP'		=>	isset($_REQUEST['IP']) ? $_REQUEST['IP'] : '',
-    			'AAVADDRESS'=>	isset($_REQUEST['AAVADDRESS']) ? $_REQUEST['AAVADDRESS'] : '',
-    			'AAVCHECK'	=>	isset($_REQUEST['AAVCHECK']) ? $_REQUEST['AAVCHECK'] : ($this->aavscheck == 'yes')? 'NO' : '',
+    			'AAVADDRESS'    =>	isset($_REQUEST['AAVADDRESS']) ? $_REQUEST['AAVADDRESS'] : '',
+    			'AAVCHECK'	=>	isset($_REQUEST['AAVCheck']) ? $_REQUEST['AAVCheck'] : ($this->aavscheck == 'yes')? 'NO' : '',
     			'AAVZIP'	=>	isset($_REQUEST['AAVZIP']) ? $_REQUEST['AAVZIP'] : '',
-    			'ACCEPTANCE'=>	isset($_REQUEST['ACCEPTANCE']) ? $_REQUEST['ACCEPTANCE'] : '',
+    			'AAVMAIL'	=>	isset($_REQUEST['AAVMAIL']) ? $_REQUEST['AAVMAIL'] : '',
+    			'AAVNAME'	=>	isset($_REQUEST['AAVNAME']) ? $_REQUEST['AAVNAME'] : '',
+    			'AAVPHONE'	=>	isset($_REQUEST['AAVPHONE']) ? $_REQUEST['AAVPHONE'] : '',
+    			'ACCEPTANCE'    =>	isset($_REQUEST['ACCEPTANCE']) ? $_REQUEST['ACCEPTANCE'] : '',
     			'BIN'		=>	isset($_REQUEST['BIN']) ? $_REQUEST['BIN'] : '',
     			'CCCTY'		=>	isset($_REQUEST['CCCTY']) ? $_REQUEST['CCCTY'] : '',
     			'COMPLUS'	=>	isset($_REQUEST['COMPLUS']) ? $_REQUEST['COMPLUS'] : '',
-    			'CVCCHECK'	=>	isset($_REQUEST['CVCCHECK']) ? $_REQUEST['CVCCHECK'] : ($this->cvccheck == 'yes')? 'NO' : '',
+    			'CVCCHECK'	=>	isset($_REQUEST['CVCCheck']) ? $_REQUEST['CVCCheck'] : ($this->cvccheck == 'yes')? 'NO' : '',
     			'ECI'		=>	isset($_REQUEST['ECI']) ? $_REQUEST['ECI'] : '',
     			'FXAMOUNT'	=>	isset($_REQUEST['FXAMOUNT']) ? $_REQUEST['FXAMOUNT'] : '',
-    			'FXCURRENCY'=>	isset($_REQUEST['FXCURRENCY']) ? $_REQUEST['FXCURRENCY'] : '',
+    			'FXCURRENCY'    =>	isset($_REQUEST['FXCURRENCY']) ? $_REQUEST['FXCURRENCY'] : '',
     			'IPCTY'		=>	isset($_REQUEST['IPCTY']) ? $_REQUEST['IPCTY'] : '',
     			'SUBBRAND'	=>	isset($_REQUEST['SUBBRAND']) ? $_REQUEST['SUBBRAND'] : '',
     			'VC'		=>	isset($_REQUEST['VC']) ? $_REQUEST['VC'] : '',
@@ -568,7 +570,7 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
     			$this->transaction_successfull( $x );    			
     		}
     		else{
-    			wp_die('Transection verification error!');
+    			wp_die('Transaction verification error!');
     		}    		
     	
     }
@@ -584,7 +586,7 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
     	$accepted = array(4,5,9,41,51,91);
     	$status = $STATUS;
     	
-    	$dienote = '<p>Transection result is uncertain.<p>';
+    	$dienote = '<p>Transaction result is uncertain.<p>';
     	$dienote .='<p>Status Code: '.$STATUS.' - '.$this->get_epdq_status_code($status).'';
     	$dienote .='<br>Error Code: '.$NCERROR.'</p>';
     	$died = '';    	
@@ -671,31 +673,31 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
 	    	}
 	    	
 	    	//wp_die($note);
-	    	header('Location:'.add_query_arg('order', $order->id, add_query_arg('key', $order->order_key, $this->accept_url)));
+	    	header('Location:'.add_query_arg('key', $order->order_key, $this->accept_url));
     	}
     	elseif($STATUS==2 or $STATUS== 93){
     		$dienote .='<br>Order is failed.';
     		$order->update_status('failed',$dienote);
     		$woocommerce->cart->empty_cart();
-    		header('Location:'.add_query_arg(array('key' => $order->order_key,'order' => $order->id,'statusCode'=> $STATUS,'ncerror'=>$NCERROR), $this->decline_url));
+    		header('Location:'.add_query_arg(array('key' => $order->order_key,'statusCode'=> $STATUS,'ncerror'=>$NCERROR), $this->decline_url));
     	}
     	elseif($STATUS== 52 or $STATUS== 92){
     		$dienote .='<br>Order is failed.';
     		$order->update_status('failed',$dienote);
     		$woocommerce->cart->empty_cart();
-    		header('Location:'.add_query_arg(array('key' => $order->order_key,'order' => $order->id,'statusCode'=> $STATUS,'ncerror'=>$NCERROR), $this->exception_url));    	
+    		header('Location:'.add_query_arg(array('key' => $order->order_key,'statusCode'=> $STATUS,'ncerror'=>$NCERROR), $this->exception_url));    	
     	}
     	elseif( $STATUS==1 ){
     		$dienote .='<br>Order is cancelled.';
     		$order->update_status('cancelled',$dienote);
     		$woocommerce->cart->empty_cart();
-    		header('Location:'.add_query_arg(array('key' => $order->order_key,'order' => $order->id,'statusCode'=> $STATUS,'ncerror'=>$NCERROR), $this->cancel_url));
+    		header('Location:'.add_query_arg(array('key' => $order->order_key,'statusCode'=> $STATUS,'ncerror'=>$NCERROR), $this->cancel_url));
     	}
     	else{
     		$dienote .='<br>Order is failed.';
     		$order->update_status('failed',$dienote);
     		$woocommerce->cart->empty_cart();
-    		header('Location:'.add_query_arg(array('key' => $order->order_key,'order' => $order->id,'statusCode'=> $STATUS,'ncerror'=>$NCERROR), isset($this->notice_url)? $this->notice_url : $this->cancel_url));
+    		header('Location:'.add_query_arg(array('key' => $order->order_key,'statusCode'=> $STATUS,'ncerror'=>$NCERROR), isset($this->notice_url)? $this->notice_url : $this->cancel_url));
     	}
     	
 		//wp_die($died);
