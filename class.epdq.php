@@ -46,8 +46,6 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
 		$this->aavscheck = $this->get_option('aavcheck');
 		$this->cvccheck = $this->get_option('cvccheck');
 		
-		$this->notify_url   = str_replace( 'https:', 'http:', add_query_arg( 'wc-api', 'WC_Nom_EPDQ', get_permalink(woocommerce_get_page_id('thanks')) ) );
-		
 		//	templating
 		
 		$this->pp_format = $this->get_option('pp_format');
