@@ -422,7 +422,7 @@ class WC_Nom_EPDQ extends WC_Payment_Gateway {
 	function process_payment($order_id){
         global $woocommerce;
     	$order = new WC_Order( $order_id );
-        return array('result' => 'success', 'redirect' => add_query_arg(array( 'wc-api' => 'WC_Nom_EPDQ', 'key' => $order->order_key), $order->get_checkout_payment_url( $on_checkout = true )));
+        return array('result' => 'success', 'redirect' => add_query_arg(array('key' => $order->order_key), $order->get_checkout_payment_url( $on_checkout = true )));
     }
 	
 	function receipt_page($order_id){
